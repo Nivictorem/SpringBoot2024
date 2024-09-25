@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/MySecondTestAppSpingBoot/MySecondTestAppSpingBoot.iml" filepath="$PROJECT_DIR$/MySecondTestAppSpingBoot/MySecondTestAppSpingBoot.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/MyThirdTestAppSpingBoot.iml" filepath="$PROJECT_DIR$/.idea/MyThirdTestAppSpingBoot.iml" />
     </modules>
   </component>
