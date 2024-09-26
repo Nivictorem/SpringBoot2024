@@ -3,9 +3,9 @@ package ru.arkhipov.MySecondTestAppSpingBoot.model;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum Systems {
-    ERP("Enterprise Resource Planning"),
-    CRM("Customer Relationship Management"),
-    WMS("Warehouse Management System");
+    ERP("ERP"),
+    CRM("CRM"),
+    WMS("WMS");
     private final String name;
     Systems(String name)
     {

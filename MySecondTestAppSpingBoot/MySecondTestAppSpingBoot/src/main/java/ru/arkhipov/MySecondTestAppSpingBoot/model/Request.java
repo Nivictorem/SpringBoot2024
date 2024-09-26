@@ -14,22 +14,30 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Request {
+    // Уникальный идентификатор сообещния (неможет быть пустым)
     @NotBlank
     @Size(max = 32)
     private String uid;
+    // Уникальный идентификатор операции (не может быть пустым)
     @NotBlank
     @Size(max = 32)
     private String operationUid;
-    private Systems systemName;
+    private Systems systemName; // Имя системы отправителя
     @NotBlank
-    private String systemTime;
-    private String source;
+    private String systemTime; // Время создания сообщения
+    private String source; // Наименование ресурса
+    private String position; // Должность отправителя
+
+    private double bonus; // Коэффициент оклада
+    private double salary; // Зарплата отправителя
+
     @Max(100000)
     @Min(1)
-    private int communication;
-    private int tamplateId;
-    private int productionCode;
-    private int smsCode;
+    private int communication; // Уникальный идентификатор коммуникации
+    private int tamplateId; // Уникальный идентификатор шаблона
+    private int productionCode; // Код продукта
+    private int smsCode; // Смс код
+    private int workDays; // Количество фактически отработанных дней в году
 
     @Override
     public String toString()

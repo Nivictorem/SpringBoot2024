@@ -18,6 +18,7 @@ import ru.arkhipov.MySecondTestAppSpingBoot.util.DateTimeUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.function.Consumer;
 
 @Slf4j
 @RestController
@@ -51,33 +52,42 @@ public class MyController {
                 .errorMessage(ErrorMessages.EMPTY)
                 .build();
         log.info("response: {}",response);
+        ErorrClass er = ErorrClass.builder()
+                .codes(Codes.FAILED)
+                .errorCodes(ErrorCodes.UNKNOWN_EXCEPTION)
+                .errorMessages(ErrorMessages.UNKNOWN)
+                .build();
+        Consumer<Response> processingErrors = resp ->
+        {
+            resp.setCode(er.codes);
+            resp.setErrorMessage(er.errorMessages);
+            resp.setErrorCode(er.errorCodes);
+        };
         try {
             validationService.isValid(bindingResult);
             validationService.isSupportedUid(request.getUid());
         } catch (ValidationFailedException e)
         {
-            response.setCode(Codes.FAILED);
-            response.setErrorCode(ErrorCodes.VALIDATION_EXCEPTION);
-            response.setErrorMessage(ErrorMessages.VALIDATION);
+            er.setErrorCodes(ErrorCodes.VALIDATION_EXCEPTION);
+            er.setErrorMessages(ErrorMessages.VALIDATION);
+            processingErrors.accept(response);
             log.error("Error mess:", e);
             return  new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }catch (UnsupportedCodeException e){
-            response.setCode(Codes.FAILED);
-            response.setErrorCode(ErrorCodes.UNSUPPORTED_EXCEPTION);
-            response.setErrorMessage(ErrorMessages.UNSUPPORTED);
+            er.setErrorCodes(ErrorCodes.UNSUPPORTED_EXCEPTION);
+            er.setErrorMessages(ErrorMessages.UNSUPPORTED);
+            processingErrors.accept(response);
             log.error("Error mess:", e);
+            return  new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }catch (Exception e)
         {
-            response.setCode(Codes.FAILED);
-            response.setErrorCode(ErrorCodes.UNKNOWN_EXCEPTION);
-            response.setErrorMessage(ErrorMessages.UNKNOWN);
+            processingErrors.accept(response);
             log.error("Error mess:", e);
-            return  new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         modifyResponseService.modify(response);
-        //modifyRequestService.modify(request);
         modifySourceRequestService.modify(request);
         log.info("response: {}",response);
-        return new ResponseEntity<>(modifyResponseService.modify(response), HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
