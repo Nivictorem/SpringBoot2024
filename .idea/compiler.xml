@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="MySecondTestAppSpingBoot (2)" />
+        <module name="MySpringBoot2Dbase" />
         <module name="myFirstTestAppSpingBoot" />
         <module name="MySecondTestAppSpingBoot (1)" />
       </profile>
@@ -21,6 +22,7 @@
       <module name="MySecondTestAppSpingBoot" options="-parameters" />
       <module name="MySecondTestAppSpingBoot (1)" options="-parameters" />
       <module name="MySecondTestAppSpingBoot (2)" options="-parameters" />
+      <module name="MySpringBoot2Dbase" options="-parameters" />
       <module name="myFirstTestAppSpingBoot" options="-parameters" />
     </option>
   </component>
