@@ -7,7 +7,10 @@ import ru.arkhipov.MySpringBoot2Dbase.entity.Student;
 @Data
 @Builder
 public class Response {
-    private Codes code; // Сообщение о выполнении операции (успешно|неуспешно)
+    /***
+     * Сообщение о выполнении операции (успешно|неуспешно)
+     */
+    private Codes code;
     private String errorMessage; // Описание ошибки
     private Student student;
     @Override
