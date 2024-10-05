@@ -7,20 +7,26 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="MySpringBoot2Dbase" />
+        <module name="CourseProject" />
+        <module name="MySecondTestAppSpingBoot (1)" />
         <module name="MySecondTestAppSpingBoot (2)" />
         <module name="MyUiRestDbService" />
         <module name="test-security2db-themeleaf" />
-        <module name="MySpringBoot2Dbase" />
         <module name="myFirstTestAppSpingBoot" />
-        <module name="MySecondTestAppSpingBoot (1)" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="MyCourseProject" target="17" />
       <module name="MySecondTestAppSpingBoot" target="17" />
+      <module name="test-security2db-themeleaf (1)" target="17" />
+      <module name="test-security2db-themeleaf (2)" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="CourseProject" options="-parameters" />
+      <module name="MyCourseProject" options="-parameters" />
       <module name="MySecondTestAppSpingBoot" options="-parameters" />
       <module name="MySecondTestAppSpingBoot (1)" options="-parameters" />
       <module name="MySecondTestAppSpingBoot (2)" options="-parameters" />
@@ -28,6 +34,8 @@
       <module name="MyUiRestDbService" options="-parameters" />
       <module name="myFirstTestAppSpingBoot" options="-parameters" />
       <module name="test-security2db-themeleaf" options="-parameters" />
+      <module name="test-security2db-themeleaf (1)" options="-parameters" />
+      <module name="test-security2db-themeleaf (2)" options="-parameters" />
     </option>
   </component>
 </project>

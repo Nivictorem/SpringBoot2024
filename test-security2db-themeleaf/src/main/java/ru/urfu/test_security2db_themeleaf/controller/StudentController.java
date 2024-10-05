@@ -2,6 +2,9 @@ package ru.urfu.test_security2db_themeleaf.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -11,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import ru.urfu.test_security2db_themeleaf.entity.Student;
 import ru.urfu.test_security2db_themeleaf.repository.StudentRepository;
 
+import java.security.Security;
 import java.util.Optional;
 
 @Slf4j
@@ -18,6 +22,12 @@ import java.util.Optional;
 public class StudentController {
     @Autowired
     private StudentRepository studentRepository;
+
+    public String GetCurrUser()
+    {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getName();
+    }
 
     @GetMapping("/list")
     public ModelAndView getAllStudent() {
