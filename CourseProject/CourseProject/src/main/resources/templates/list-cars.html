@@ -50,18 +50,19 @@
         </thead>
         <tbody>
         <tr th:each="car: ${cars}">
-            <td th:text="${car.number}" />
-            <td th:text="${car.brand}" />
-            <td th:text="${car.worth}" />
+            <td th:text="${car.number}"/>
+            <td th:text="${car.brand}"/>
+            <td th:text="${car.worth}"/>
             <td>
                 <a th:href="@{/showUpdateForm(carId=${car.id})}" class="btn btn-info">Update</a>
-
                 <a th:href="@{/deleteCar(carId=${car.id})}" class="btn btn-danger ml-2">Delete</a>
             </td>
         </tr>
         </tbody>
-
-    </table>
+        <div class="form-group">
+            <a th:href="@{/CalcCarNumber}" class="btn btn-primary">Calculate count of cars</a>
+            <input th:name="carNumber" th:value="${carNumber}" disabled></input>
+        </div>
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -76,4 +77,5 @@
         });
     })
 </script>
-</body></html>
+</body>
+</html>

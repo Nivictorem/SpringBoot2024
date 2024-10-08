@@ -1,45 +1,60 @@
 package ru.pavlov.CourseProject.controller;
 
 
-import ch.qos.logback.classic.BasicConfigurator;
 import ch.qos.logback.classic.LoggerContext;
+import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import ru.pavlov.CourseProject.dto.UserDto;
 import ru.pavlov.CourseProject.entity.Car;
+import ru.pavlov.CourseProject.entity.Role;
+import ru.pavlov.CourseProject.entity.User;
 import ru.pavlov.CourseProject.repository.CarsRepository;
 import ru.pavlov.CourseProject.repository.UserActionsRepository;
-import ru.pavlov.CourseProject.service.GetUsernameService;
-import ru.pavlov.CourseProject.service.GetUsernameServiceImp;
-import ru.pavlov.CourseProject.service.UserService;
+import ru.pavlov.CourseProject.service.*;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
-
+@Log4j2
 @Slf4j
 @Controller
 public class CarsController {
     @Autowired
     private CarsRepository carsRepository;
+    private GetRoleService getRoleServiceImp;
     private GetUsernameService getUsernameService;
-    public CarsController(GetUsernameService getUsernameService)
+    private UserActionService userActionService;
+    public CarsController(GetRoleServiceImp getRoleServiceImp,
+                          GetUsernameService getUsernameService,
+                          UserActionService userActionService)
     {
+        this.getRoleServiceImp = getRoleServiceImp;
         this.getUsernameService = getUsernameService;
+        this.userActionService = userActionService;
     }
+
 
     @Autowired
     private UserActionsRepository userActionsRepository;
     @GetMapping("/list")
     public ModelAndView getAllCar() {
-        log.info("/list -> connection");
         ModelAndView mav = new ModelAndView("list-cars");
-        mav.addObject("cars", carsRepository.findAll());
+        if (getRoleServiceImp.getRoleCurrentUser().equals("ROLE_ADMIN"))
+        {
+            mav.addObject("cars", carsRepository.findAll());
+        }
+        else
+        {
+            mav.addObject("cars", carsRepository.findByEmail(getUsernameService.getusername()));
+        }
+        log.info("/list -> connection");
+        userActionService.setUserAction("connection to list-cars");
         return mav;
     }
     @GetMapping("/userActions")
@@ -47,14 +62,26 @@ public class CarsController {
         log.info("/list -> connection");
         ModelAndView mav = new ModelAndView("list-actions");
         mav.addObject("userActions", userActionsRepository.findAll());
+        userActionService.setUserAction("connection to list-actions");
         return mav;
     }
+    @GetMapping("/CalcCarNumber")
+    public ModelAndView calcCarNumber(ModelAndView modelAndView) {
+        log.info("/list -> connection");
+        ModelAndView mav = new ModelAndView("list-cars");
+        mav.addObject("cars", carsRepository.findAll());
+        mav.addObject("carNumber", Integer.toString(carsRepository.findAll().size()));
+        userActionService.setUserAction("calculate number of car");
+        return mav;
+    }
+
     @GetMapping("/addCarForm")
     public ModelAndView addStudentForm()
     {
         ModelAndView mav = new ModelAndView("add-car-form");
         Car car = new Car();
         mav.addObject("car", car);
+        userActionService.setUserAction("connection to add-car-form");
         return mav;
     }
     @PostMapping("/saveCar")
@@ -62,6 +89,7 @@ public class CarsController {
     {
         car.setEmail(getUsernameService.getusername());
         carsRepository.save(car);
+        userActionService.setUserAction("save new car");
         return "redirect:/list";
     }
     @GetMapping("/showUpdateForm")
@@ -75,12 +103,15 @@ public class CarsController {
             car = optionalCar.get();
         }
         mav.addObject("car", car);
+        userActionService.setUserAction("modify car in database");
         return mav;
     }
     @GetMapping("/deleteCar")
     public String deleteStudent(@RequestParam Long carId)
     {
         carsRepository.deleteById(carId);
+        userActionService.setUserAction("delete car in database");
         return "redirect:/list";
     }
+
 }

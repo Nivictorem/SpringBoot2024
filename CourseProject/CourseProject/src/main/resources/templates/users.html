@@ -54,6 +54,11 @@
             <td th:text="${user.firstName}"></td>
             <td th:text="${user.lastName}"></td>
             <td th:text="${user.email}"></td>
+            <div th:if="${mainUserRole == 'ROLE_ADMIN'}">
+                <td>
+                    <a th:href="@{/addNewRole(userEmail=${user.email})}" class="btn btn-primary">Update</a>
+                </td>
+            </div>
         </tr>
         </tbody>
     </table>

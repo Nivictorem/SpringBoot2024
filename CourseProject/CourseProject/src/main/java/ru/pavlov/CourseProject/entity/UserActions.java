@@ -19,7 +19,9 @@ public class UserActions {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "date_actions")
-    private Date date_actions;
+    private String date_actions;
     @Column(name = "description")
     private String description;
+    @Column(name = "user_email")
+    private String user_email;
 }
