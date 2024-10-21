@@ -82,11 +82,7 @@ public class UserServiceImp implements UserService {
         userDto.setFirstName(str[0]);
         userDto.setLastName(str[1]);
         userDto.setEmail(user.getEmail());
-        if (!user.getRoles().stream().filter(x -> Objects.equals(x.getName(), "ROLE_ADMIN")).toList().isEmpty()) {
-            userDto.setRole("ROLE_ADMIN");
-        } else {
-            userDto.setRole("ROLE_USER");
-        }
+        userDto.setRole(user.getRoles().get(0).getName());
         return userDto;
     }
 

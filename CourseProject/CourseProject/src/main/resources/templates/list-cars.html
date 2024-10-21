@@ -53,10 +53,12 @@
             <td th:text="${car.number}"/>
             <td th:text="${car.brand}"/>
             <td th:text="${car.worth}"/>
-            <td>
-                <a th:href="@{/showUpdateForm(carId=${car.id})}" class="btn btn-info">Update</a>
-                <a th:href="@{/deleteCar(carId=${car.id})}" class="btn btn-danger ml-2">Delete</a>
-            </td>
+            <div th:if="${mainUserRole == 'ROLE_ADMIN' OR mainUserRole == 'ROLE_USER'}">
+                <td>
+                    <a th:href="@{/showUpdateForm(carId=${car.id})}" class="btn btn-info">Update</a>
+                    <a th:href="@{/deleteCar(carId=${car.id})}" class="btn btn-danger ml-2">Delete</a>
+                </td>
+            </div>
         </tr>
         </tbody>
         <div class="form-group">

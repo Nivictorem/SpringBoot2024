@@ -96,7 +96,7 @@ public class SecurityController {
             return "/register";
 
         }
-        userDto.setRole("ROLE_USER");
+        userDto.setRole("ROLE_READONLY");
         userService.saveUser(userDto);
         return "redirect:/login";
 
@@ -106,14 +106,7 @@ public class SecurityController {
     public String users(Model model) {
         User user = userService.findUserByEmail(getUsernameService.getusername());
         List<UserDto> users = userService.findAllUsers();
-        if (getRoleService.getRoleCurrentUser().equals("ROLE_ADMIN"))
-        {
-            model.addAttribute("mainUserRole", "ROLE_ADMIN");
-        }
-        else
-        {
-            model.addAttribute("mainUserRole", "ROLE_USER");
-        }
+        model.addAttribute("mainUserRole", getRoleService.getRoleCurrentUser());
         model.addAttribute("users", users);
         userActionService.setUserAction("connection to users");
         return "users";

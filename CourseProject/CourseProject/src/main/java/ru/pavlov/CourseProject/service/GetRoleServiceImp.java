@@ -17,10 +17,10 @@ public class GetRoleServiceImp implements GetRoleService{
     @Override
     public String getRoleCurrentUser() {
         User user = userService.findUserByEmail(getUsernameService.getusername());
-        if(!user.getRoles().stream().filter(x-> Objects.equals(x.getName(), "ROLE_ADMIN")).toList().isEmpty())
-        {
-            return "ROLE_ADMIN";
-        }
-        return "ROLE_USER";
+//        if(!user.getRoles().stream().filter(x-> Objects.equals(x.getName(), "ROLE_ADMIN")).toList().isEmpty())
+//        {
+//            return "ROLE_ADMIN";
+//        }
+        return user.getRoles().get(0).getName();
     }
 }
